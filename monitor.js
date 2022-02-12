@@ -1,14 +1,11 @@
 const Parser = require('rss-parser');
-const DB = require('./db');
-let parse = new Parser();
+const Handlepost = require('./posthandler');
+let parser = new Parser();
 
-module.exports = async function (url, database) {
-    setInterval(async function () {
-        let feed = await parse.parseURL(url);
-        console.log(feed.title);
+module.exports = async function (url) {
+    let feed = await parser.parseURL(url);
 
-        feed.items.forEach(item => {
-            console.log(item.title + ':' + item.link)
-        });
-    }, 300000)
+    feed.items.forEach(post => {
+        Handlepost(post);
+    })
 }
